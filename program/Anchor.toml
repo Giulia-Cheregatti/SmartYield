@@ -1,0 +1,20 @@
+[workspace]
+members = [
+    "programs/aimpact_recommender",
+]
+
+[programs.localnet]
+aimpact_recommender = "YOUR_PROGRAM_ID"
+
+[programs.devnet]
+aimpact_recommender = "YOUR_PROGRAM_ID"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "devnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "anchor test"

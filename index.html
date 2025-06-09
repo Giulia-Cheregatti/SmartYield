@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recomendador DeFi AImpact</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Recomendador DeFi AImpact</h1>
+    <form id="investmentForm" class="form">
+      <div class="form-group">
+        <label for="riskProfile">Perfil de Risco:</label>
+        <select id="riskProfile" name="riskProfile">
+          <option value="baixo">Baixo</option>
+          <option value="médio">Médio</option>
+          <option value="alto">Alto</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="investmentAmount">Valor de Investimento ($):</label>
+        <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Digite o valor" required>
+      </div>
+      <div class="form-group">
+        <label for="financialGoal">Objetivo Financeiro:</label>
+        <input type="text" id="financialGoal" name="financialGoal" placeholder="Ex.: Renda estável" required>
+      </div>
+      <button type="submit" id="submitBtn">Obter Recomendações</button>
+    </form>
+    <div id="error" class="error"></div>
+    <div id="recommendations" class="recommendations"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/dist/solana-web3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@project-serum/anchor@0.26.1/dist/browser/index.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
