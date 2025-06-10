@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartYield - Aplicação para recomendações personalizadas de investimentos DeFi na Solana.">
+  <title>SmartYield - Aplicação</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-brand">
+        <a href="index.html" class="logo">SmartYield</a>
+      </div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Início</a></li>
+          <li><a href="#help" class="nav-link">Ajuda</a></li>
+          <li><a href="#contact" class="nav-link">Contato</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+      </nav>
+    </div>
+  </header>
+  <main class="main-content">
+    <div class="container">
+      <div id="walletStatus" class="wallet-status"></div>
+      <form id="investmentForm" class="form">
+        <div class="form-group">
+          <label for="riskProfile">Perfil de Risco</label>
+          <select id="riskProfile" name="riskProfile" class="select" required>
+            <option value="baixo">Baixo</option>
+            <option value="médio">Médio</option>
+            <option value="alto">Alto</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="investmentAmount">Valor de Investimento ($)</label>
+          <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Digite o valor" required class="input">
+        </div>
+        <div class="form-group">
+          <label for="financialGoal">Objetivos Financeiros (até 5)</label>
+          <select id="financialGoal" name="financialGoal" multiple size="8" class="select multi" onchange="limitSelections()" required>
+            <option value="renda-estavel">Renda Estável</option>
+            <option value="crescimento-longo-prazo">Crescimento Longo Prazo</option>
+            <option value="alta-rentabilidade">Alta Rentabilidade</option>
+            <option value="diversificacao">Diversificação</option>
+            <option value="protecao-capital">Proteção de Capital</option>
+            <option value="liquidez-rapida">Liquidez Rápida</option>
+            <option value="investimento-especulativo">Investimento Especulativo</option>
+            <option value="reducao-riscos">Redução de Riscos</option>
+          </select>
+          <p id="selectionLimit" class="selection-limit"></p>
+        </div>
+        <div class="form-group">
+          <label for="assetType">Analisar Somente</label>
+          <select id="assetType" name="assetType" class="select" onchange="toggleCustomAsset()" required>
+            <option value="all">Todos</option>
+            <option value="stablecoins">Stablecoins</option>
+            <option value="altcoins">Altcoins</option>
+            <option value="custom">Moeda ou Par Específico</option>
+          </select>
+          <input type="text" id="customAsset" name="customAsset" placeholder="Ex.: USDC/SOL" class="input" style="display:none;">
+        </div>
+        <button type="submit" id="submitBtn" class="btn primary">Obter Recomendações</button>
+      </form>
+      <div id="error" class="error"></div>
+      <div id="recommendations" class="recommendations"></div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 SmartYield. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/dist/solana-web3.min.js"></script>
+  <script src="https://unpkg.com/@solana/wallet-adapter-phantom@latest/dist/index.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
