@@ -26,13 +26,13 @@ Smart Contract: Instale Rust, Solana CLI, Anchor CLI; compile com anchor build; 
 Uso
 
 Acesse index.html para apresentação.
-Em app.html, conecte Phantom, selecione até 5 objetivos e veja recomendações.
+Em app.html, clique em "Conectar Carteira", preencha o formulário e veja recomendações.
 
 Funcionalidades
 
 Perfil de risco, valor, até 5 objetivos financeiros.
 Filtro por stablecoins, altcoins ou pares customizados.
-Conexão real com Phantom.
+Conexão manual com Phantom e validações em tempo real.
 
 Submissão
 
