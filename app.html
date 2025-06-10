@@ -3,80 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SmartYield - Aplicação para recomendações personalizadas de investimentos DeFi na Solana.">
-  <title>SmartYield - Aplicação</title>
+  <meta name="description" content="SmartYield: Conecte sua carteira Phantom e obtenha recomendações DeFi personalizadas na Solana.">
+  <meta name="keywords" content="SmartYield, DeFi, Solana, carteira Phantom, investimentos, IA, AImpact">
+  <meta name="author" content="SmartYield Team">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="SmartYield - Aplicação DeFi com IA">
+  <meta property="og:description" content="Conecte sua carteira Phantom e obtenha recomendações personalizadas de investimentos DeFi na Solana.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.smartyield.com/app.html">
+  <meta property="og:image" content="https://www.smartyield.com/assets/logo.png">
+  <title>SmartYield - Aplicação DeFi</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "SmartYield Aplicação",
+    "description": "Aplicação para recomendações personalizadas de investimentos DeFi na Solana com integração à carteira Phantom.",
+    "url": "https://www.smartyield.com/app.html",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SmartYield Team"
+    }
+  }
+  </script>
 </head>
 <body>
   <header class="header">
     <div class="container">
       <div class="header-brand">
-        <a href="index.html" class="logo">SmartYield</a>
+        <a href="index.html" class="logo" aria-label="SmartYield Home">SmartYield</a>
       </div>
-      <nav class="nav">
+      <nav class="nav" aria-label="Navegação principal">
         <ul class="nav-list">
           <li><a href="index.html" class="nav-link">Início</a></li>
           <li><a href="#help" class="nav-link">Ajuda</a></li>
           <li><a href="#contact" class="nav-link">Contato</a></li>
         </ul>
-        <button class="nav-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+        <button class="nav-toggle" aria-label="Alternar navegação" aria-expanded="false"><i class="fas fa-bars"></i></button>
       </nav>
     </div>
   </header>
   <main class="main-content">
     <div class="container">
       <div class="wallet-section">
-        <p id="walletStatus" class="wallet-status">Carteira não conectada</p>
+        <p id="walletStatus" class="wallet-status" aria-live="polite">Carteira não conectada</p>
         <button id="connectWalletBtn" class="btn secondary">Conectar Carteira</button>
       </div>
-      <form id="investmentForm" class="form" novalidate>
+      <form id="investmentForm" class="form" novalidate aria-label="Formulário de recomendações de investimento">
         <div class="form-group">
-          <label for="riskProfile">Perfil de Risco <span class="required">*</span></label>
-          <select id="riskProfile" name="riskProfile" class="select" required>
+          <label for="riskProfile">Perfil de Risco <span class="required" aria-hidden="true">*</span></label>
+          <select id="riskProfile" name="riskProfile" class="select" required aria-required="true">
             <option value="">Selecione</option>
             <option value="baixo">Baixo</option>
             <option value="médio">Médio</option>
             <option value="alto">Alto</option>
           </select>
-          <span class="error-text" id="riskError"></span>
+          <span class="error-text" id="riskError" role="alert"></span>
         </div>
         <div class="form-group">
-          <label for="investmentAmount">Valor de Investimento ($) <span class="required">*</span></label>
-          <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Digite o valor" min="1" required class="input">
-          <span class="error-text" id="amountError"></span>
+          <label for="investmentAmount">Valor de Investimento ($) <span class="required" aria-hidden="true">*</span></label>
+          <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Digite o valor" min="1" required class="input" aria-required="true">
+          <span class="error-text" id="amountError" role="alert"></span>
         </div>
         <div class="form-group">
-          <label>Objetivos Financeiros (até 5) <span class="required">*</span></label>
-          <div class="checkbox-group" id="financialGoal">
-            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="renda-estavel"> Renda Estável</label>
-            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="crescimento-longo-prazo"> Crescimento Longo Prazo</label>
-            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="alta-rentabilidade"> Alta Rentabilidade</label>
-            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="diversificacao"> Diversificação</label>
-            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="protecao-capital"> Proteção de Capital</label>
-            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="liquidez-rapida"> Liquidez Rápida</label>
-            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="investimento-especulativo"> Investimento Especulativo</label>
-            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="reducao-riscos"> Redução de Riscos</label>
+          <label id="financialGoalLabel">Objetivos Financeiros (até 5) <span class="required" aria-hidden="true">*</span></label>
+          <div class="checkbox-group" id="financialGoal" role="group" aria-labelledby="financialGoalLabel">
+            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="renda-estavel" aria-label="Renda Estável"> Renda Estável</label>
+            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="crescimento-longo-prazo" aria-label="Crescimento Longo Prazo"> Crescimento Longo Prazo</label>
+            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="alta-rentabilidade" aria-label="Alta Rentabilidade"> Alta Rentabilidade</label>
+            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="diversificacao" aria-label="Diversificação"> Diversificação</label>
+            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="protecao-capital" aria-label="Proteção de Capital"> Proteção de Capital</label>
+            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="liquidez-rapida" aria-label="Liquidez Rápida"> Liquidez Rápida</label>
+            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="investimento-especulativo" aria-label="Investimento Especulativo"> Investimento Especulativo</label>
+            <label class="checkbox-label"><input type="checkbox" name="financialGoal" value="reducao-riscos" aria-label="Redução de Riscos"> Redução de Riscos</label>
           </div>
-          <p id="selectionLimit" class="selection-limit"></p>
-          <span class="error-text" id="goalError"></span>
+          <p id="selectionLimit" class="selection-limit" role="alert"></p>
+          <span class="error-text" id="goalError" role="alert"></span>
         </div>
         <div class="form-group">
-          <label for="assetType">Analisar Somente <span class="required">*</span></label>
-          <select id="assetType" name="assetType" class="select" onchange="toggleCustomAsset()" required>
+          <label for="assetType">Analisar Somente <span class="required" aria-hidden="true">*</span></label>
+          <select id="assetType" name="assetType" class="select" onchange="toggleCustomAsset()" required aria-required="true">
             <option value="">Selecione</option>
             <option value="all">Todos</option>
             <option value="stablecoins">Stablecoins</option>
             <option value="altcoins">Altcoins</option>
             <option value="custom">Moeda ou Par Específico</option>
           </select>
-          <input type="text" id="customAsset" name="customAsset" placeholder="Ex.: USDC/SOL" class="input" style="display:none;">
-          <span class="error-text" id="assetError"></span>
+          <input type="text" id="customAsset" name="customAsset" placeholder="Ex.: USDC/SOL" class="input" style="display:none;" aria-required="true">
+          <span class="error-text" id="assetError" role="alert"></span>
         </div>
         <button type="submit" id="submitBtn" class="btn primary">Obter Recomendações</button>
       </form>
-      <div id="error" class="error"></div>
+      <div id="error" class="error" role="alert"></div>
       <div id="recommendations" class="recommendations"></div>
     </div>
   </main>

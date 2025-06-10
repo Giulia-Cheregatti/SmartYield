@@ -39,6 +39,8 @@ function limitSelections() {
 
 // Toggle de navegação móvel
 navToggle.addEventListener('click', () => {
+  const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+  navToggle.setAttribute('aria-expanded', !isExpanded);
   navList.classList.toggle('active');
 });
 
