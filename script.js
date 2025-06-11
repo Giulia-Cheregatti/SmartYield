@@ -17,6 +17,8 @@ const riskError = document.getElementById('riskError');
 const amountError = document.getElementById('amountError');
 const goalError = document.getElementById('goalError');
 const assetError = document.getElementById('assetError');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const backToTopBtn = document.getElementById('backToTop');
 
 // Função para alternar o campo customizado
 function toggleCustomAsset() {
@@ -78,34 +80,58 @@ function validateForm() {
   assetError.style.display = 'none';
 
   if (!riskProfile.value) {
-    riskError.textContent = 'Selecione um perfil de risco.';
+    errorDiv.textContent = 'Selecione um perfil de risco.';
+    errorDiv.style.display = 'block';
+    errorDiv.classList.add('animate');
+    setTimeout(() => errorDiv.classList.remove('animate'), 600);
+    riskError.textContent = '🔴';
     riskError.style.display = 'block';
     isValid = false;
   }
 
   if (!investmentAmount.value || investmentAmount.value <= 0) {
-    amountError.textContent = 'Digite um valor válido maior que 0.';
+    errorDiv.textContent = 'Digite um valor válido maior que 0.';
+    errorDiv.style.display = 'block';
+    errorDiv.classList.add('animate');
+    setTimeout(() => errorDiv.classList.remove('animate'), 600);
+    amountError.textContent = '🔴';
     amountError.style.display = 'block';
     isValid = false;
   }
 
   const selectedGoals = Array.from(financialGoalCheckboxes).filter(checkbox => checkbox.checked);
   if (selectedGoals.length === 0) {
-    goalError.textContent = 'Selecione pelo menos um objetivo.';
+    errorDiv.textContent = 'Selecione pelo menos um objetivo.';
+    errorDiv.style.display = 'block';
+    errorDiv.classList.add('animate');
+    setTimeout(() => errorDiv.classList.remove('animate'), 600);
+    goalError.textContent = '🔴';
     goalError.style.display = 'block';
     isValid = false;
   } else if (selectedGoals.length > 5) {
-    goalError.textContent = 'Máximo de 5 objetivos permitidos.';
+    errorDiv.textContent = 'Máximo de 5 objetivos permitidos.';
+    errorDiv.style.display = 'block';
+    errorDiv.classList.add('animate');
+    setTimeout(() => errorDiv.classList.remove('animate'), 600);
+    goalError.textContent = '🔴';
     goalError.style.display = 'block';
     isValid = false;
   }
 
   if (!assetType.value) {
-    assetError.textContent = 'Selecione uma opção de análise.';
+    errorDiv.textContent = 'Selecione uma opção de análise.';
+    errorDiv.style.display = 'block';
+    errorDiv.classList.add('animate');
+    setTimeout(() => errorDiv.classList.remove('animate'), 600);
+    assetError.textContent = '🔴';
     assetError.style.display = 'block';
     isValid = false;
   } else if (assetType.value === 'custom' && !customAsset.value) {
-    assetError.textContent = 'Digite um par específico.';
+    errorDiv.textContent = 'Digite um par específico.';
+    errorDiv.style.display = 'block';
+    errorDiv.classList.add('animate');
+    setTimeout(() => errorDiv.classList.remove('animate'), 600);
+    assetError.textContent = '🔴';
     assetError.style.display = 'block';
     isValid = false;
   }
@@ -115,12 +141,12 @@ function validateForm() {
 }
 
 // Dados DeFi mockados
-const fetchDeFiData = async () => {
+async function fetchDeFiData() {
   try {
-    const response = await axios.get('https://api.orca.so/pools');
+    const response = await axios.get('https://api.orca.so/pools/Get');
     let data = response.data.map(pool => ({
       name: pool.name,
-      apy: pool.apy,
+      apy: pool.apy, // Corrigido de response.apy para pool.apy
       volume: pool.volume,
       risk: pool.risk || 'médio',
       type: pool.name.includes('USDC') || pool.name.includes('USDT') ? 'stablecoins' : 'altcoins'
@@ -145,7 +171,7 @@ const fetchDeFiData = async () => {
     }
     return mockData;
   }
-};
+}
 
 // Gerar recomendações
 const getAImpactRecommendations = (userInput, defiData) => {
@@ -198,15 +224,17 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
   errorDiv.style.display = 'none';
   recommendationsDiv.innerHTML = '';
+  loadingSpinner.style.display = 'block';
 
   if (!validateForm()) {
     submitBtn.disabled = false;
+    loadingSpinner.style.display = 'none';
     return;
   }
 
   try {
     const defiData = await fetchDeFiData();
-    const selectedGoals = Array.from(financialGoalCheckboxes)
+    const selectedGoals = Array.from(financialGoalCheckboxes) // Corrigido de financeGoalCheckboxes para financialGoalCheckboxes
       .filter(checkbox => checkbox.checked)
       .map(checkbox => checkbox.value)
       .slice(0, 5);
@@ -219,10 +247,14 @@ form.addEventListener('submit', async (e) => {
     };
     const recommendations = getAImpactRecommendations(userInput, defiData);
 
+    loadingSpinner.style.display = 'none';
+
     if (recommendations.length > 0) {
-      recommendations.forEach(rec => {
+      recommendations.forEach((rec, index) => {
         const recDiv = document.createElement('div');
         recDiv.className = 'recommendation';
+        recDiv.style.opacity = '0';
+        recDiv.style.transform = 'translateY(20px)';
         recDiv.innerHTML = `
           <p><strong>Protocolo:</strong> ${rec.protocol}</p>
           <p><strong>APY:</strong> ${rec.apy}%</p>
@@ -230,15 +262,24 @@ form.addEventListener('submit', async (e) => {
           <p><strong>Racional:</strong> ${rec.rationale}</p>
         `;
         recommendationsDiv.appendChild(recDiv);
-        storeOnChain(rec);
+        setTimeout(() => {
+          recDiv.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          recDiv.style.opacity = '1';
+          recDiv.style.transform = 'translateY(0)';
+        }, index * 100);
       });
     } else {
       errorDiv.textContent = 'Nenhuma recomendação gerada.';
       errorDiv.style.display = 'block';
+      errorDiv.classList.add('animate');
+      setTimeout(() => errorDiv.classList.remove('animate'), 600);
     }
   } catch (err) {
+    loadingSpinner.style.display = 'none';
     errorDiv.textContent = 'Erro ao processar. Tente novamente.';
     errorDiv.style.display = 'block';
+    errorDiv.classList.add('animate');
+    setTimeout(() => errorDiv.classList.remove('animate'), 600);
   } finally {
     submitBtn.disabled = false;
   }
@@ -251,3 +292,37 @@ financialGoalCheckboxes.forEach(checkbox => {
 
 // Adicionar evento para alternar campo customizado
 assetType.addEventListener('change', toggleCustomAsset);
+
+// Botão de voltar ao topo
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 500) {
+    backToTopBtn.classList.add('show');
+  } else {
+    backToTopBtn.classList.remove('show');
+  }
+});
+
+backToTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Rolagem suave para links de âncora
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(anchor.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// Feedback visual para inputs do formulário
+[riskProfile, investmentAmount, customAsset].forEach(input => {
+  input.addEventListener('focus', () => {
+    input.parentElement.querySelector('label').style.color = '#00acc1';
+  });
+  input.addEventListener('blur', () => {
+    input.parentElement.querySelector('label').style.color = '';
+  });
+});
